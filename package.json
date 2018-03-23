@@ -1,0 +1,29 @@
+{
+  "name": "redux-api-actions",
+  "version": "1.0.0",
+  "description": "redux-api-middleware's helper to support create api actions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "geminiyellow/redux-api-actions",
+  "homepage": "https://github.com/geminiyellow/redux-api-actions",
+  "keywords": [
+    "redux",
+    "api",
+    "middleware",
+    "redux-middleware",
+    "redux-api-actions",
+    "redux-actions"
+  ],
+  "author": {
+    "name": "geminiyellow",
+    "email": "geminiyellow@gmail.com"
+  },
+  "license": "MIT",
+  "files": [
+    "README.md",
+    "LICENSE.md",
+    "lib/"
+  ]
+}
