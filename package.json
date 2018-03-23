@@ -4,7 +4,9 @@
   "description": "redux-api-middleware's helper to support create api actions.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "echo \"Error: no test specified\" && exit 0",
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "build": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": "geminiyellow/redux-api-actions",
   "homepage": "https://github.com/geminiyellow/redux-api-actions",
@@ -25,5 +27,10 @@
     "README.md",
     "LICENSE.md",
     "lib/"
-  ]
+  ],
+  "dependencies": {
+    "immutable": "^3.8.2",
+    "redux-actions": "^2.3.0",
+    "redux-api-middleware": "^2.3.0"
+  }
 }

@@ -1,1 +1,3 @@
-console.log('redux-api-actions');
+import { default as creator } from './src';
+
+export default creator;
