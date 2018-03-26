@@ -1,9 +1,9 @@
-import isFunction from './isFunction';
 import { createAction } from 'redux-actions';
+import isFunction from './isFunction';
 
-export const createActionAndReducer = (action, props) => {
+export default (action, props) => {
   const { before, success } = props;
-  const isFunc = isFunction(success)
+  const isFunc = isFunction(success);
   const { payload, meta } = isFunc ? props : success;
 
   const type = createAction(action, payload, meta);
@@ -13,6 +13,6 @@ export const createActionAndReducer = (action, props) => {
 
   return ({
     action: fsa,
-    reducer: { [action]: isFunc ? success : success.reducer }
-  })
+    reducer: { [action]: isFunc ? success : success.reducer },
+  });
 };

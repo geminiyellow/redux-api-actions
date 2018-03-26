@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { handleActions } from 'redux-actions';
 
-import { createAPIActionAndReducer } from './action-creator-api';
-import { createActionAndReducer } from './action-creator-normal';
+import createAPIActionAndReducer from './action-creator-api';
+import createActionAndReducer from './action-creator-normal';
 
 /**
  * {
@@ -24,13 +24,15 @@ import { createActionAndReducer } from './action-creator-normal';
  * }
  */
 export default (module = {}) => {
-  const { namespace, state, component, actions } = module;
+  const {
+    namespace, state, component, actions,
+  } = module;
 
   const reduxActions = {};
   let reduxReducers = {};
 
   // if has key `endpoint`, means this action is a api action else is a normal action
-  Object.keys(actions).map(name => {
+  Object.keys(actions).forEach((name) => {
     const { endpoint } = actions[name];
     const ACTION_TYPE = `${namespace}_${name}`.toUpperCase();
 
@@ -43,7 +45,7 @@ export default (module = {}) => {
 
   // - Container
   const mapDispatchToProps = dispatch => ({ actions: bindActionCreators(reduxActions, dispatch) });
-  const mapStateToProps = state => ({ store: state[namespace.toUpperCase()] });
+  const mapStateToProps = store => ({ store: store[namespace.toUpperCase()] });
   const Container = connect(mapStateToProps, mapDispatchToProps)(component);
 
   // - Reducer
@@ -53,4 +55,4 @@ export default (module = {}) => {
     Container,
     Reducer,
   };
-}
+};
