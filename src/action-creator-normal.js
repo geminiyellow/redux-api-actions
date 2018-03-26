@@ -1,9 +1,24 @@
-import isFunction from './isFunction';
+import invariant from 'invariant';
+import isNull from 'lodash/isNull';
+import isFunction from 'lodash/isFunction';
 import { createAction } from 'redux-actions';
 
-export const createActionAndReducer = (action, props) => {
+import { isValidReducerDescriptor } from './validation';
+
+export default (action, props) => {
   const { before, success } = props;
-  const isFunc = isFunction(success)
+
+  invariant(
+    !(isNull(before) || isFunction(before)),
+    'Expected before to be a function, undefined or null'
+  );
+
+  invariant(
+    isValidReducerDescriptor(success),
+    'Expected success to be a function, or valid reducer descriptor'
+  );
+
+  const isFunc = isFunction(success);
   const { payload, meta } = isFunc ? props : success;
 
   const type = createAction(action, payload, meta);
@@ -13,6 +28,6 @@ export const createActionAndReducer = (action, props) => {
 
   return ({
     action: fsa,
-    reducer: { [action]: isFunc ? success : success.reducer }
-  })
+    reducer: { [action]: isFunc ? success : success.reducer },
+  });
 };

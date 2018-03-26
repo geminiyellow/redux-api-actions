@@ -1,0 +1,9 @@
+{
+  "plugins": ["lodash"],
+  "presets": [ "env", "react", "stage-0" ],
+  "env": {
+    "es": {
+      "presets": [[ "env", { "modules": false } ]]
+    }
+  }
+}
