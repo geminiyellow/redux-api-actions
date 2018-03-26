@@ -1,0 +1,11 @@
+{
+  "presets": [
+    "env",
+    "stage-0"
+  ],
+  "env": {
+    "es": {
+      "presets": [[ "env", { "modules": false } ]]
+    }
+  }
+}
