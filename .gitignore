@@ -506,3 +506,8 @@ Temporary Items
 !.vscode/launch.json
 !.vscode/extensions.json
 .gitignore
+
+# This Repository
+es/
+lib/
+dist/
