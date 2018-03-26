@@ -1,6 +1,5 @@
-// https://github.com/agraboso/redux-api-middleware#rsaa-1
-import isFunction from './isFunction';
 import { RSAA } from 'redux-api-middleware';
+import isFunction from './isFunction';
 
 const func = state => state;
 const pickActionType = (type, { meta, payload }) => ({ type, meta, payload });
@@ -9,9 +8,16 @@ const pickActionType = (type, { meta, payload }) => ({ type, meta, payload });
 // method: 'GET',
 // headers: { 'Content-Type': 'application/json' },
 // credentials: 'same-origin',
-export const createAPIActionAndReducer = (action, props) => {
-  const { before, payload, meta, endpoint, request = func, success = func, failure = func, ...others } = props;
-  const { body, method, headers, credentials, options, bailout, fetch } = others;
+export default (action, props) => {
+  const {
+    before, payload, meta, endpoint,
+    request = func, success = func, failure = func,
+    ...others
+  } = props;
+
+  const {
+    body, method, headers, credentials, options, bailout, fetch,
+  } = others;
 
   const REQUEST = `${action}_REQUEST`;
   const SUCCESS = `${action}_SUCCESS`;
@@ -27,13 +33,15 @@ export const createAPIActionAndReducer = (action, props) => {
   const types = [REQUEST_TYPE, SUCCESS_TYPE, FAILURE_TYPE];
 
   const defaultRSAA = {
-    endpoint, types, body,
-
+    endpoint,
+    types,
+    body,
     method: method || 'GET',
     headers: headers || { 'Content-Type': 'application/json' },
     credentials: credentials || 'same-origin',
-
-    options, bailout, fetch,
+    options,
+    bailout,
+    fetch,
   };
 
   const rsaa = (before && isFunction(before)) ?
@@ -46,6 +54,6 @@ export const createAPIActionAndReducer = (action, props) => {
       [REQUEST]: isFuncREQ ? request : request.reducer,
       [SUCCESS]: isFuncSUC ? success : success.reducer,
       [FAILURE]: isFuncFAL ? failure : failure.reducer,
-    }
+    },
   });
-}
+};
