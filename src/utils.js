@@ -7,7 +7,7 @@ const func = state => state;
 const pickActionType = (type, { meta, payload }) => ({ type, meta, payload });
 const normalizeTypeDescriptors = (type, module) =>
   VALID_REDUCER_METHOD_KEY.map((key) => {
-    const ACTION_TYPE = `${type}_${key.toUpperCase}`;
+    const ACTION_TYPE = `${type}_${key.toUpperCase()}`;
     const { payload, meta } = module;
     const descriptor = module[key] || func;
     return isFunction(descriptor)
@@ -17,7 +17,7 @@ const normalizeTypeDescriptors = (type, module) =>
 
 const normalizeReducerDescriptors = (type, module) =>
   VALID_REDUCER_METHOD_KEY.reduce((accumulator, key) => {
-    const ACTION_TYPE = `${type}_${key.toUpperCase}`;
+    const ACTION_TYPE = `${type}_${key.toUpperCase()}`;
     const descriptor = module[key] || func;
     accumulator[ACTION_TYPE] = isFunction(descriptor)
       ? descriptor
