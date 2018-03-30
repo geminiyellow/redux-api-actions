@@ -17,7 +17,7 @@ export default (action, props) => {
   } = props;
 
   invariant(
-    !endpoint,
+    !!endpoint,
     'Expected endpoint to be valid api endpoint string.'
   );
 
