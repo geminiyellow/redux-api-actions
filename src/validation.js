@@ -1,4 +1,4 @@
-import isNull from 'lodash/isNull';
+import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import isPlainObject from 'lodash/isPlainObject';
 
@@ -15,7 +15,7 @@ const isValidModuleDescriptor = module =>
   isPlainObject(module) &&
   (!module.before || isFunction(module.before)) &&
   VALID_REDUCER_METHOD_KEY.every(key => (
-    isNull(module[key]) || isValidReducerDescriptor(module[key])
+    isNil(module[key]) || isValidReducerDescriptor(module[key])
   ));
 
 export {
