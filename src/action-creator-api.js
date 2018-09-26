@@ -34,9 +34,11 @@ export default (action, props) => {
     fetch,
   };
 
-  const rsaa = (before && isFunction(before)) ?
-    (...args) => ({ [RSAA]: { ...defaultRSAA, ...before(...args) } }) :
-    { [RSAA]: defaultRSAA };
+  const rsaa = (...args) => (
+    (before && isFunction(before))
+      ? ({ [RSAA]: { ...defaultRSAA, ...before(...args) } })
+      : ({ [RSAA]: defaultRSAA })
+  );
 
   const reducer = normalizeReducerDescriptors(action, props);
 
