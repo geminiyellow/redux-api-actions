@@ -36,7 +36,7 @@ export default (action, props) => {
 
   const rsaa = (...args) => (
     (before && isFunction(before))
-      ? ({ [RSAA]: { ...defaultRSAA, ...before(...args) } })
+      ? ({ [RSAA]: { ...defaultRSAA, ...before(defaultRSAA, ...args) } })
       : ({ [RSAA]: defaultRSAA })
   );
 
