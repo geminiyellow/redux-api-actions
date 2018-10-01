@@ -28,7 +28,9 @@ export default (module = {}) => {
 
   // - Container
   const mapDispatchToProps = dispatch => ({ actions: bindActionCreators(reduxActions, dispatch) });
-  const mapStateToProps = stateToProps || (store => ({ store: store[NAMESPACE] }));
+  const mapStateToProps = stateToProps
+    ? (store, props) => stateToProps(store, props, NAMESPACE)
+    : (store => ({ store: store[NAMESPACE] }));
   const Container = connect(mapStateToProps, mapDispatchToProps)(component);
 
   // - Reducer
