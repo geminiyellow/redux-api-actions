@@ -1,6 +1,6 @@
 {
   "name": "redux-api-actions",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "redux-api-middleware's helper to support create api actions.",
   "main": "lib/index.js",
   "module": "es/index.js",
