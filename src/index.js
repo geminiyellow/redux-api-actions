@@ -9,8 +9,15 @@ import createActionAndReducer from './action-creator-normal';
 export default (module = {}) => {
   const {
     namespace, state, component, actions,
-    mapStateToProps: stateToProps,
+    connect: connecOptions,
   } = module;
+
+  const {
+    mapStateToProps: stateToProps,
+    mapDispatchToProps: dispatchToProps,
+    mergeProps,
+    options,
+  } = connecOptions || {};
 
   const NAMESPACE = namespace.toUpperCase();
   const { reduxActions, reduxReducers } = Object.keys(actions).reduce((accumulator, name) => {
@@ -26,12 +33,17 @@ export default (module = {}) => {
     return accumulator;
   }, { reduxActions: [], reduxReducers: {} });
 
+  // - Actions
+  const Actions = reduxActions;
+
   // - Container
-  const mapDispatchToProps = dispatch => ({ actions: bindActionCreators(reduxActions, dispatch) });
+  const mapDispatchToProps = dispatchToProps
+    ? (dispatch, props) => dispatchToProps(dispatch, props, Actions)
+    : dispatch => ({ actions: bindActionCreators(Actions, dispatch) });
   const mapStateToProps = stateToProps
     ? (store, props) => stateToProps(store, props, NAMESPACE)
     : (store => ({ store: store[NAMESPACE] }));
-  const Container = connect(mapStateToProps, mapDispatchToProps)(component);
+  const Container = connect(mapStateToProps, mapDispatchToProps, mergeProps, options)(component);
 
   // - Reducer
   const Reducer = { [NAMESPACE]: handleActions(reduxReducers, fromJS(state || {})) };
@@ -39,6 +51,7 @@ export default (module = {}) => {
   return {
     Container,
     Reducer,
+    Actions,
     NAMESPACE,
   };
 };
