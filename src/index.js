@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { handleActions } from 'redux-actions';
 
 import createAPIActionAndReducer from './action-creator-api';
@@ -10,6 +10,7 @@ export default (module = {}) => {
   const {
     namespace, state, component, actions,
     connect: connecOptions,
+    enhancers,
   } = module;
 
   const {
@@ -43,7 +44,10 @@ export default (module = {}) => {
   const mapStateToProps = stateToProps
     ? (store, props) => stateToProps(store, props, NAMESPACE)
     : (store => ({ store: store[NAMESPACE] }));
-  const Container = connect(mapStateToProps, mapDispatchToProps, mergeProps, options)(component);
+  const Container = compose(
+    connect(mapStateToProps, mapDispatchToProps, mergeProps, options),
+    ...(enhancers || []),
+  )(component);
 
   // - Reducer
   const Reducer = { [NAMESPACE]: handleActions(reduxReducers, fromJS(state || {})) };
