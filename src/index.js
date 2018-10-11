@@ -1,24 +1,17 @@
 import { fromJS } from 'immutable';
-import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import { handleActions } from 'redux-actions';
 
 import createAPIActionAndReducer from './action-creator-api';
 import createActionAndReducer from './action-creator-normal';
+import { normalizeEnhancers } from './utils';
 
 export default (module = {}) => {
   const {
     namespace, state, component, actions,
     connect: connecOptions,
-    enhancers,
+    enhancers: enhancerOptions,
   } = module;
-
-  const {
-    mapStateToProps: stateToProps,
-    mapDispatchToProps: dispatchToProps,
-    mergeProps,
-    options,
-  } = connecOptions || {};
 
   const NAMESPACE = namespace.toUpperCase();
   const { reduxActions, reduxReducers } = Object.keys(actions).reduce((accumulator, name) => {
@@ -38,16 +31,12 @@ export default (module = {}) => {
   const Actions = reduxActions;
 
   // - Container
-  const mapDispatchToProps = dispatchToProps
-    ? (dispatch, props) => dispatchToProps(dispatch, props, Actions)
-    : dispatch => ({ actions: bindActionCreators(Actions, dispatch) });
-  const mapStateToProps = stateToProps
-    ? (store, props) => stateToProps(store, props, NAMESPACE)
-    : (store => ({ store: store[NAMESPACE] }));
-  const Container = compose(
-    connect(mapStateToProps, mapDispatchToProps, mergeProps, options),
-    ...(enhancers || []),
-  )(component);
+  const Container = compose(...normalizeEnhancers(
+    connecOptions,
+    enhancerOptions,
+    Actions,
+    NAMESPACE,
+  ))(component);
 
   // - Reducer
   const Reducer = { [NAMESPACE]: handleActions(reduxReducers, fromJS(state || {})) };
