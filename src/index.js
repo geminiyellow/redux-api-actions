@@ -31,12 +31,13 @@ export default (module = {}) => {
   const Actions = reduxActions;
 
   // - Container
+  const Component = component || (({ children }) => children);
   const Container = compose(...normalizeEnhancers(
     connecOptions,
     enhancerOptions,
     Actions,
     NAMESPACE,
-  ))(component);
+  ))(Component);
 
   // - Reducer
   const Reducer = { [NAMESPACE]: handleActions(reduxReducers, fromJS(state || {})) };
