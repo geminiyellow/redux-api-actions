@@ -14,7 +14,7 @@ export default (module = {}) => {
   } = module;
 
   const NAMESPACE = namespace.toUpperCase();
-  const { reduxActions, reduxReducers } = Object.keys(actions).reduce((accumulator, name) => {
+  const { reduxActions, reduxReducers } = Object.keys(actions || {}).reduce((accumulator, name) => {
     const { endpoint } = actions[name];
     const ACTION_TYPE = `${NAMESPACE}_${name.toUpperCase()}`;
 
